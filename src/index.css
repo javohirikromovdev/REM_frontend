@@ -1,0 +1,152 @@
+@import 'tailwindcss';
+
+/* Dark variant data-theme atributiga bog'langan */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ===== Rang tokenlari: light ===== */
+:root {
+  --bg: #f6f8fc;
+  --surface: #ffffff;
+  --surface-2: #eef2f8;
+  --text: #0f172a;
+  --muted: #475569;
+  --border: #cbd5e1;
+  --accent: #1d4ed8;
+  --accent-hover: #1e40af;
+  --on-accent: #ffffff;
+  --accent-soft: #dbeafe;
+  --danger: #b91c1c;
+  --danger-soft: #fee2e2;
+  --success: #15803d;
+  --success-soft: #dcfce7;
+  --warning: #a16207;
+  --warning-soft: #fef3c7;
+  --overlay: rgb(15 23 42 / 0.5);
+  --shadow: 0 1px 2px rgb(15 23 42 / 0.06), 0 8px 24px rgb(15 23 42 / 0.06);
+  --hero-from: #e8efff;
+  --hero-to: #f6f8fc;
+  color-scheme: light;
+}
+
+/* ===== Rang tokenlari: dark ===== */
+[data-theme='dark'] {
+  --bg: #101719;
+  --surface: #1c2529;
+  --surface-2: #243035;
+  --text: #f4f1e8;
+  --muted: #b7c0c4;
+  --border: #3b484e;
+  --accent: #d9b87a;
+  --accent-hover: #e6cb96;
+  --on-accent: #14191b;
+  --accent-soft: rgb(217 184 122 / 0.16);
+  --danger: #f28b82;
+  --danger-soft: rgb(242 139 130 / 0.14);
+  --success: #7fd19b;
+  --success-soft: rgb(127 209 155 / 0.14);
+  --warning: #f0c36d;
+  --warning-soft: rgb(240 195 109 / 0.14);
+  --overlay: rgb(0 0 0 / 0.65);
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 10px 30px rgb(0 0 0 / 0.25);
+  --hero-from: #0b1113;
+  --hero-to: #101719;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--text);
+  --color-muted: var(--muted);
+  --color-line: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-on-accent: var(--on-accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --shadow-card: var(--shadow);
+  --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+@utility card {
+  @apply rounded-2xl border border-line bg-surface shadow-card;
+}
+@utility btn {
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60;
+}
+@utility btn-primary {
+  @apply btn bg-accent text-on-accent hover:bg-accent-hover;
+}
+@utility btn-outline {
+  @apply btn border border-line bg-surface text-fg hover:border-accent hover:text-accent;
+}
+@utility btn-ghost {
+  @apply btn text-fg hover:bg-surface-2;
+}
+@utility btn-danger {
+  @apply btn bg-danger text-white hover:opacity-90;
+}
+@utility icon-btn {
+  @apply inline-flex size-11 shrink-0 items-center justify-center rounded-xl text-fg transition-colors hover:bg-surface-2;
+}
+@utility input {
+  @apply block min-h-11 w-full rounded-xl border border-line bg-surface px-3 text-sm text-fg placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30;
+}
+@utility label {
+  @apply mb-1.5 block text-sm font-medium text-fg;
+}
+@utility field-error {
+  @apply mt-1 text-sm text-danger;
+}
+@utility chip {
+  @apply inline-flex min-h-11 items-center justify-center rounded-xl border border-line bg-surface px-3 text-sm font-medium text-fg transition-colors hover:border-accent;
+}
+@utility chip-active {
+  @apply border-accent bg-accent text-on-accent hover:border-accent;
+}
+
+@keyframes pulse-soft {
+  50% {
+    opacity: 0.55;
+  }
+}
+.skeleton {
+  background: var(--surface-2);
+  border-radius: 0.75rem;
+  animation: pulse-soft 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}

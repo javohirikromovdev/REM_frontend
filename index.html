@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="uz-Latn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>REM — Real Estate Marketplace</title>
+    <script>
+      // Refreshda noto'g'ri fon chaqnamasligi uchun mavzu va til React'dan oldin qo'llanadi
+      (function () {
+        try {
+          var pref = localStorage.getItem('rem-theme') || 'dark'
+          var dark = pref === 'dark' || (pref === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+          var lng = localStorage.getItem('rem-locale')
+          if (lng) document.documentElement.lang = lng
+        } catch (e) {
+          document.documentElement.dataset.theme = 'dark'
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
