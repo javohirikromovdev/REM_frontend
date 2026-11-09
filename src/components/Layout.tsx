@@ -92,7 +92,6 @@ function Footer() {
 export function Layout() {
   const { t } = useTranslation()
   const { pathname } = useLocation()
-  // Yangi sahifaga o'tganda tepaga qaytish (query o'zgarishida emas)
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [pathname])

@@ -17,9 +17,8 @@ function readPreference(): ThemePreference {
     const v = localStorage.getItem(STORAGE_KEY)
     if (v === 'light' || v === 'dark' || v === 'system') return v
   } catch {
-    /* e'tiborsiz */
   }
-  return 'dark' // asosiy (default) rejim — Qora
+  return 'dark'
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
@@ -44,7 +43,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     try {
       localStorage.setItem(STORAGE_KEY, p)
     } catch {
-      /* e'tiborsiz */
     }
   }
 

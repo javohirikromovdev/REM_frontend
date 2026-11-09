@@ -1,4 +1,3 @@
-// TanStack Query hooklari: API ma'lumotlarini olish va cache'lash
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useLocation, useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
@@ -37,7 +36,7 @@ export function useProperty(id: number) {
   return useQuery({
     queryKey: keys.property(id),
     queryFn: () => api.properties.get(id),
-    enabled: Number.isInteger(id) && id > 0 && status !== 'loading', // egasi/admin uchun token bilan
+    enabled: Number.isInteger(id) && id > 0 && status !== 'loading',
     retry: (count, err) => !(err instanceof ApiError && err.status < 500 && err.status > 0) && count < 2,
   })
 }
@@ -51,7 +50,6 @@ export function useFavorites() {
   })
 }
 
-/** Yurakcha: mehmon bo'lsa auth oqimiga, foydalanuvchi bo'lsa qo'shish/olib tashlash */
 export function useToggleFavorite() {
   const { status } = useAuth()
   const { data } = useFavorites()
@@ -68,7 +66,6 @@ export function useToggleFavorite() {
         if (saved) await api.favorites.remove(id)
         else await api.favorites.add(id)
       } catch (err) {
-        // 409: allaqachon saqlangan, 404 (o'chirishda): allaqachon yo'q — holatni yangilash kifoya
         if (err instanceof ApiError && (err.status === 409 || (saved && err.status === 404))) return saved
         throw err
       }

@@ -63,7 +63,6 @@ export function ProfilePage() {
   const [phone, setPhone] = useState(user?.phone ?? '')
   const [error, setError] = useState<string | null>(null)
 
-  // Profilning to'liq ma'lumoti (createdAt) GET /users/me dan
   useEffect(() => {
     api.users
       .me()
@@ -298,7 +297,6 @@ export function FavoritesPage() {
         />
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-          {/* GET /favorites har bir yozuvda property obyektini qaytaradi */}
           {result.data.map((f) => (
             <PropertyCard key={f.id} property={f.property} />
           ))}

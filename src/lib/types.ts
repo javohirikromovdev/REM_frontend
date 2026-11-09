@@ -1,5 +1,3 @@
-// Backend (Prisma) modellariga mos TypeScript typelar
-
 export type Role = 'USER' | 'ADMIN'
 export type ListingType = 'SALE' | 'RENT'
 export type PropertyStatus = 'PENDING' | 'APPROVED' | 'REJECTED'
@@ -11,7 +9,7 @@ export interface User {
   email: string
   phone: string | null
   role: Role
-  createdAt?: string // login javobida yo'q, /auth/me va /users/me da bor
+  createdAt?: string
 }
 
 export interface Category {
@@ -22,7 +20,7 @@ export interface Category {
 
 export interface PropertyImage {
   id: number
-  url: string // masalan "/uploads/123.jpg"
+  url: string
   altText: string | null
   propertyId: number
   sortOrder: number
@@ -32,14 +30,14 @@ export interface PropertyOwner {
   id: number
   fullName: string
   phone: string | null
-  email?: string // faqat admin ro'yxatida
+  email?: string
 }
 
 export interface Property {
   id: number
   title: string
   description: string
-  price: string | number // Prisma Decimal JSON'da string bo'lib keladi
+  price: string | number
   currency: string
   listingType: ListingType
   status: PropertyStatus
@@ -54,7 +52,7 @@ export interface Property {
   categoryId: number
   images: PropertyImage[]
   category: Category
-  owner?: PropertyOwner // faqat GET /properties/:id va admin ro'yxatida
+  owner?: PropertyOwner
 }
 
 export interface Paginated<T> {

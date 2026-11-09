@@ -1,4 +1,3 @@
-// Klaviatura, Escape va tashqariga bosish bilan ishlaydigan dropdown menyu
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react'
 import { Link } from 'react-router'
 import { Check } from 'lucide-react'
@@ -9,7 +8,7 @@ export interface DropdownItem {
   icon?: ReactNode
   to?: string
   onSelect?: () => void
-  checked?: boolean // radio uslubidagi tanlov (mavzu, til)
+  checked?: boolean
   danger?: boolean
 }
 

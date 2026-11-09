@@ -1,4 +1,3 @@
-// Kichik umumiy UI bo'laklari: loader, skeleton, holat xabarlari, badge
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AlertTriangle, Inbox, Loader2, RotateCcw } from 'lucide-react'
@@ -76,7 +75,6 @@ export function ErrorState({ error, onRetry }: { error: unknown; onRetry?: () =>
   )
 }
 
-/** Forma ostidagi backend xatosi */
 export function FormError({ error }: { error: unknown }) {
   const { t } = useTranslation()
   if (!error) return null

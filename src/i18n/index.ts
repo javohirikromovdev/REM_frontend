@@ -22,7 +22,6 @@ function initialLocale(): LocaleCode {
     const saved = localStorage.getItem(STORAGE_KEY)
     if (saved && LOCALES.some((l) => l.code === saved)) return saved as LocaleCode
   } catch {
-    /* localStorage mavjud emas */
   }
   return DEFAULT_LOCALE
 }
@@ -47,7 +46,6 @@ i18n.on('languageChanged', (lng) => {
   try {
     localStorage.setItem(STORAGE_KEY, lng)
   } catch {
-    /* e'tiborsiz */
   }
 })
 

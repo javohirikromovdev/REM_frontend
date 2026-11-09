@@ -8,7 +8,6 @@ import { formatNumber, formatPrice } from '../lib/format'
 import { useToggleFavorite } from '../hooks/queries'
 import { ListingBadge } from './ui'
 
-/** Rasm yuklanmasa yoki yo'q bo'lsa fallback ko'rsatadi */
 export function SmartImage({ src, alt, className = '' }: { src: string | null; alt: string; className?: string }) {
   const [failed, setFailed] = useState(false)
   if (!src || failed) {
@@ -53,7 +52,6 @@ export function PropertyCard({ property }: { property: Property }) {
         <div className="absolute start-3 top-3">
           <ListingBadge type={property.listingType} />
         </div>
-        {/* Yurakcha kartochka havolasidan alohida ishlaydi */}
         <FavoriteButton propertyId={property.id} className="absolute end-3 top-3 z-10" />
       </div>
       <div className="flex flex-1 flex-col p-4">

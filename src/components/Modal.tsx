@@ -1,4 +1,3 @@
-// Dialog va drawer: focus ichida ushlanadi, Escape yopadi, fokus avvalgi joyga qaytadi
 import { useEffect, useRef, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
@@ -113,7 +112,6 @@ export function Drawer({ open, onClose, title, children, side = 'end' }: Props &
   )
 }
 
-/** O'chirish kabi qaytarib bo'lmaydigan amallar uchun tasdiqlash oynasi */
 export function ConfirmDialog({
   open,
   title,

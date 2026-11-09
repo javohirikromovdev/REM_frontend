@@ -18,7 +18,6 @@ const FILTER_KEYS = ['city', 'category', 'type', 'minPrice', 'maxPrice', 'rooms'
 const positiveInt = (v: string | null) => (v && /^\d+$/.test(v) && Number(v) > 0 ? Number(v) : undefined)
 const nonNegative = (v: string | null) => (v && v.trim() !== '' && Number.isFinite(Number(v)) && Number(v) >= 0 ? Number(v) : undefined)
 
-/** URL query → API query */
 function parseQuery(sp: URLSearchParams): PropertyQuery {
   const type = sp.get('type')
   const sort = sp.get('sort') as SortOption | null
@@ -50,7 +49,6 @@ function FilterPanel({ query, setParams, onClear, onApplied }: PanelProps) {
   const [maxPrice, setMaxPrice] = useState(query.maxPrice?.toString() ?? '')
   const [priceError, setPriceError] = useState(false)
 
-  // URL o'zgarsa (Back/Forward, tozalash) draft qiymatlar ham yangilanadi
   useEffect(() => {
     setCity(query.city ?? '')
     setMinPrice(query.minPrice?.toString() ?? '')
@@ -197,7 +195,6 @@ export function CatalogPage() {
   const result = useProperties(query)
   const [drawerOpen, setDrawerOpen] = useState(false)
 
-  /** Filtr o'zgarsa page=1 bo'ladi (page kalitini o'chiramiz) */
   const setParams = (changes: Record<string, string | undefined>) => {
     const next = new URLSearchParams(searchParams)
     for (const [k, v] of Object.entries(changes)) {

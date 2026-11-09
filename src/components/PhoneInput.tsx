@@ -2,13 +2,12 @@ import { UZ_PREFIX, formatLocal, toLocalDigits } from '../lib/phone'
 
 interface Props {
   id: string
-  value: string // faqat +998 dan keyingi raqamlar
+  value: string
   onChange: (digits: string) => void
   invalid?: boolean
   describedBy?: string
 }
 
-/** +998 prefiksi doim ko'rinib turadigan telefon maydoni */
 export function PhoneInput({ id, value, onChange, invalid, describedBy }: Props) {
   return (
     <div

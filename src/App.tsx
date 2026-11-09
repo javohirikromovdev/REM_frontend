@@ -14,14 +14,12 @@ export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        {/* Mehmon uchun ochiq sahifalar */}
         <Route index element={<HomePage />} />
         <Route path="properties" element={<CatalogPage />} />
         <Route path="properties/:id" element={<PropertyDetailPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
 
-        {/* Login talab qilinadigan sahifalar */}
         <Route path="favorites" element={<ProtectedRoute><FavoritesPage /></ProtectedRoute>} />
         <Route path="cabinet" element={<ProtectedRoute><CabinetLayout /></ProtectedRoute>}>
           <Route index element={<ProfilePage />} />
@@ -31,7 +29,6 @@ export default function App() {
           <Route path="inquiries" element={<MyInquiriesPage />} />
         </Route>
 
-        {/* Faqat ADMIN */}
         <Route path="admin" element={<ProtectedRoute adminOnly><AdminLayout /></ProtectedRoute>}>
           <Route index element={<AdminPropertiesPage />} />
           <Route path="users" element={<AdminUsersPage />} />

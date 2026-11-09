@@ -1,9 +1,7 @@
 @import 'tailwindcss';
 
-/* Dark variant data-theme atributiga bog'langan */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
-/* ===== Rang tokenlari: light ===== */
 :root {
   --bg: #f6f8fc;
   --surface: #ffffff;
@@ -28,7 +26,6 @@
   color-scheme: light;
 }
 
-/* ===== Rang tokenlari: dark ===== */
 [data-theme='dark'] {
   --bg: #101719;
   --surface: #1c2529;

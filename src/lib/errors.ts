@@ -1,7 +1,6 @@
 import type { TFunction } from 'i18next'
 import { ApiError } from './api'
 
-/** API xatosini tarjima qilingan umumiy matnga aylantiradi */
 export function errorTitle(error: unknown, t: TFunction): string {
   if (error instanceof ApiError) {
     switch (error.status) {
@@ -28,7 +27,6 @@ export function errorTitle(error: unknown, t: TFunction): string {
   return t('errors.generic')
 }
 
-/** Backend qaytargan aniq xabarlar (asl holida) */
 export function errorDetails(error: unknown): string[] {
   return error instanceof ApiError ? error.messages : []
 }

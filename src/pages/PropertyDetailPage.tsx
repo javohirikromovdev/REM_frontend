@@ -85,7 +85,7 @@ function InquiryForm({ property, onDone }: { property: Property; onDone: () => v
 
   const submit = (e: FormEvent) => {
     e.preventDefault()
-    if (mutation.isPending) return // takroriy yuborishdan himoya
+    if (mutation.isPending) return
     if (!message.trim()) return setError('required')
     if (message.length > 1000) return setError('max')
     setError(null)
@@ -170,7 +170,6 @@ export function PropertyDetailPage() {
   const isOwner = !!user && !!property && user.id === property.ownerId
   const canInquire = property?.status === 'APPROVED' && !isOwner
 
-  // Login'dan keyin ?inquiry=1 bilan qaytilsa murojaat formasi ochiladi (yuborilmaydi)
   useEffect(() => {
     if (searchParams.get('inquiry') === '1' && status === 'authenticated' && property && canInquire) {
       setInquiryOpen(true)
@@ -203,7 +202,6 @@ export function PropertyDetailPage() {
     setInquiryOpen(true)
   }
 
-  // Mehmon "Bog'lanish"ni bossa — ro'yxatdan o'tish, keyin shu e'longa qaytish
   const onContact = () => {
     if (status !== 'authenticated') {
       const returnTo = `/properties/${property.id}`
@@ -285,7 +283,6 @@ export function PropertyDetailPage() {
                     {interestLabel}
                   </button>
                   <FavoriteButton propertyId={property.id} className="rounded-xl" />
-                  {/* Bog'lanish: mehmon — ro'yxatdan o'tishga, foydalanuvchi — qo'ng'iroq yoki murojaat */}
                   {status === 'authenticated' && property.owner?.phone ? (
                     <a href={`tel:${property.owner.phone.replace(/\s/g, '')}`} className="btn-outline w-full">
                       <Phone className="size-4" aria-hidden />

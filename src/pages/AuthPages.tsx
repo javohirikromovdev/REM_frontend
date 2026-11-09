@@ -11,7 +11,6 @@ import { FormError, PageLoader, Spinner } from '../components/ui'
 import { PhoneInput } from '../components/PhoneInput'
 import { toE164, validateLocal } from '../lib/phone'
 
-/** returnTo va reason URL'dan yoki saqlangan intentdan olinadi */
 function useAuthContextParams() {
   const [sp] = useSearchParams()
   const intent = readIntent()
@@ -101,7 +100,6 @@ export function LoginPage() {
       const intent = readIntent()
       clearIntent()
       toast(t('auth.welcome', { name: user.fullName }))
-      // Aynan tanlangan e'longa (yoki returnTo manziliga) qaytamiz
       navigate(returnTo ?? intent?.returnTo ?? '/', { replace: true })
     },
   })
@@ -171,7 +169,6 @@ export function LoginPage() {
   )
 }
 
-/** Kodni tekshirishdagi backend xabarlarini tarjima kalitiga moslash */
 function verifyErrorKey(error: unknown): string | null {
   if (!(error instanceof ApiError)) return null
   const m = error.messages[0] ?? ''
@@ -190,18 +187,17 @@ export function RegisterPage() {
   const toast = useToast()
   const { returnTo, reason, carry } = useAuthContextParams()
   const [form, setForm] = useState({ fullName: '', email: '', password: '', confirm: '' })
-  const [phone, setPhone] = useState('') // +998 dan keyingi raqamlar
+  const [phone, setPhone] = useState('')
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [step, setStep] = useState<'form' | 'code'>('form')
   const [code, setCode] = useState('')
   const [codeError, setCodeError] = useState<string | null>(null)
   const [resendAt, setResendAt] = useState(0)
   const [now, setNow] = useState(() => Date.now())
-  const [remaining, setRemaining] = useState<number | null>(null) // 24 soatda qolgan kod yuborishlar
-  const [limitHours, setLimitHours] = useState<number | null>(null) // kunlik limit tugagan bo'lsa
+  const [remaining, setRemaining] = useState<number | null>(null)
+  const [limitHours, setLimitHours] = useState<number | null>(null)
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => setForm((f) => ({ ...f, [k]: e.target.value }))
 
-  // Qayta yuborish tugmasi uchun teskari sanoq
   useEffect(() => {
     if (step !== 'code') return
     const id = window.setInterval(() => setNow(Date.now()), 1000)
@@ -209,7 +205,6 @@ export function RegisterPage() {
   }, [step])
   const secondsLeft = Math.max(0, Math.ceil((resendAt - now) / 1000))
 
-  // 1-bosqich: emailga 6 xonali kod yuborish
   const sendCode = useMutation({
     mutationFn: () => api.auth.sendCode(form.email.trim()),
     onSuccess: (res) => {
@@ -226,12 +221,10 @@ export function RegisterPage() {
       if (!(err instanceof ApiError) || err.status !== 429) return
       const wait = err.retryAfterSeconds ?? 60
       if (err.messages[0] === 'Daily code limit reached') {
-        // 24 soatda 5 ta imkoniyat tugadi
         setLimitHours(Math.max(1, Math.ceil(wait / 3600)))
         setRemaining(0)
         return
       }
-      // Kod yaqinda yuborilgan — kodni kiritish bosqichiga o'tamiz
       setResendAt(Date.now() + wait * 1000)
       setNow(Date.now())
       setStep('code')
@@ -239,7 +232,6 @@ export function RegisterPage() {
   })
   const isRateLimit = (err: unknown) => err instanceof ApiError && err.status === 429
 
-  // 2-bosqich: kodni tekshirish, so'ng ro'yxatdan o'tish (role va confirmPassword yuborilmaydi)
   const finish = useMutation({
     mutationFn: async () => {
       const email = form.email.trim()
@@ -250,7 +242,6 @@ export function RegisterPage() {
         password: form.password,
         phone: toE164(phone),
       })
-      // Ro'yxatdan o'tgach darhol tizimga kiritamiz — sayt to'liq ochiladi
       return login(email, form.password)
     },
     onSuccess: (user) => {
@@ -340,7 +331,6 @@ export function RegisterPage() {
             <ArrowLeft className="size-4 rtl:rotate-180" aria-hidden />
             {t('verify.changeEmail')}
           </button>
-          {/* Qayta yuborish tugmasi faqat 1 daqiqadan keyin chiqadi */}
           {secondsLeft > 0 ? (
             <span className="text-sm text-muted" aria-live="polite">
               {t('verify.resendIn', { s: secondsLeft })}
@@ -389,7 +379,6 @@ export function RegisterPage() {
             value={phone}
             onChange={(digits) => {
               setPhone(digits)
-              // Xato ko'rsatilgan bo'lsa yozish davomida yangilanadi
               if (errors.phone) setErrors((e) => ({ ...e, phone: validateLocal(digits) ?? '' }))
             }}
             invalid={!!errors.phone}

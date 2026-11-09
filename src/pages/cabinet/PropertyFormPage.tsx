@@ -16,7 +16,7 @@ import { ErrorState, FormError, PageHeader, PageLoader, Spinner, StatusBadge } f
 import { ForbiddenPage, NotFoundPage } from '../StatusPages'
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp']
-const MAX_SIZE = 5 * 1024 * 1024 // 5 MiB
+const MAX_SIZE = 5 * 1024 * 1024
 const CURRENCIES = ['UZS', 'USD', 'EUR']
 
 type FormState = Record<'title' | 'description' | 'address' | 'city' | 'price' | 'area' | 'rooms' | 'bathrooms' | 'categoryId' | 'currency', string> & { listingType: ListingType }
@@ -80,7 +80,6 @@ interface QueueItem {
   error?: unknown
 }
 
-/** Rasmlar navbati: har bir rasm alohida multipart so'rov bilan yuklanadi */
 function useUploadQueue(onUploaded: (propertyId: number) => void) {
   const [queue, setQueue] = useState<QueueItem[]>([])
   const [rejected, setRejected] = useState<{ name: string; reason: 'type' | 'size' }[]>([])
@@ -107,7 +106,6 @@ function useUploadQueue(onUploaded: (propertyId: number) => void) {
       return q.filter((i) => i.key !== key)
     })
 
-  /** Faqat rasm yuklanadi — property qayta yaratilmaydi */
   const upload = async (propertyId: number, items: QueueItem[]) => {
     let failed = 0
     for (const item of items) {
@@ -222,7 +220,6 @@ export function PropertyFormPage() {
         toast(t('seller.updated'))
         return
       }
-      // Avval property yaratildi, endi id orqali rasmlar yuklanadi
       setCreatedId(property.id)
       const pending = uploads.queue.filter((i) => i.status === 'pending')
       const failed = await uploads.upload(property.id, pending)
@@ -256,7 +253,7 @@ export function PropertyFormPage() {
   }
 
   const set = (k: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setForm((f) => ({ ...f, [k]: e.target.value }))
-  const locked = createdId !== null // yaratilgandan keyin forma qayta yuborilmaydi
+  const locked = createdId !== null
 
   const submit = (e: FormEvent) => {
     e.preventDefault()

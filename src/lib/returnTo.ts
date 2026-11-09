@@ -1,8 +1,5 @@
-// Login/registratsiyadan keyin qaytish manzili va mehmonning niyati (intent)
-
 const INTENT_KEY = 'rem-intent'
 
-/** Faqat sayt ichidagi ruxsat etilgan sahifalar */
 const ALLOWED = [/^\/$/, /^\/properties(\/\d+)?$/, /^\/favorites$/, /^\/cabinet(\/.*)?$/, /^\/admin(\/.*)?$/]
 
 export function safeReturnTo(value: string | null | undefined): string | null {
@@ -43,7 +40,6 @@ export function clearIntent() {
   sessionStorage.removeItem(INTENT_KEY)
 }
 
-/** Mehmonni registratsiyaga yuboradigan havola (kontekst query'da ham saqlanadi) */
 export function authUrl(page: 'login' | 'register', returnTo: string, reason: IntentAction = 'auth') {
   const sp = new URLSearchParams({ returnTo, reason })
   return `/${page}?${sp.toString()}`

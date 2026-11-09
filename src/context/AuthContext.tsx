@@ -27,11 +27,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const toast = useToast()
   const { t } = useTranslation()
 
-  // Joriy manzilni ref'da saqlaymiz — 401 handler eski qiymatni ishlatmasligi uchun
   const locationRef = useRef(location)
   locationRef.current = location
 
-  // Refreshda token bo'lsa sessiyani GET /auth/me bilan tekshiramiz
   useEffect(() => {
     if (!tokenStorage.get()) return
     let cancelled = false
@@ -56,10 +54,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     tokenStorage.clear()
     setUserState(null)
     setStatus('guest')
-    queryClient.clear() // shaxsiy cache (favorites, inquiries, ...) tozalanadi
+    queryClient.clear()
   }, [queryClient])
 
-  // Sessiya tugaganda: holat tozalanadi, qaytish manzili bilan login sahifasiga
   useEffect(() => {
     setUnauthorizedHandler(() => {
       clearSession()

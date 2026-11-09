@@ -1,4 +1,3 @@
-// Yagona API client: barcha so'rovlar shu yerdan o'tadi
 import type {
   Category,
   Favorite,
@@ -24,11 +23,10 @@ export const tokenStorage = {
   clear: () => sessionStorage.removeItem(TOKEN_KEY),
 }
 
-/** Backend xatosi: status va NestJS qaytargan xabarlar ro'yxati */
 export class ApiError extends Error {
   status: number
   messages: string[]
-  body: unknown // backend javobining to'liq tanasi (masalan retryAfterSeconds)
+  body: unknown
   constructor(status: number, messages: string[], body: unknown = null) {
     super(messages[0] ?? `HTTP ${status}`)
     this.status = status
@@ -36,7 +34,6 @@ export class ApiError extends Error {
     this.body = body
   }
 
-  /** 429 javobidagi "necha soniyadan keyin" qiymati */
   get retryAfterSeconds(): number | null {
     const v = this.body && typeof this.body === 'object' ? (this.body as { retryAfterSeconds?: unknown }).retryAfterSeconds : null
     return typeof v === 'number' ? v : null
@@ -44,7 +41,6 @@ export class ApiError extends Error {
 }
 
 let unauthorizedHandler: (() => void) | null = null
-/** Sessiya tugaganda (401) AuthContext chaqiradigan funksiya */
 export function setUnauthorizedHandler(fn: (() => void) | null) {
   unauthorizedHandler = fn
 }
@@ -52,7 +48,6 @@ export function setUnauthorizedHandler(fn: (() => void) | null) {
 interface RequestOptions {
   method?: 'GET' | 'POST' | 'PATCH' | 'DELETE'
   body?: unknown
-  /** true bo'lsa 401 sessiya tugashi deb hisoblanmaydi (masalan login formasi) */
   skipAuthRedirect?: boolean
 }
 
@@ -64,7 +59,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
 
   let payload: BodyInit | undefined
   if (body instanceof FormData) {
-    payload = body // multipart: Content-Type'ni brauzer o'zi qo'yadi
+    payload = body
   } else if (body !== undefined) {
     headers['Content-Type'] = 'application/json'
     payload = JSON.stringify(body)
@@ -74,7 +69,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   try {
     res = await fetch(API_BASE_URL + path, { method, headers, body: payload })
   } catch {
-    throw new ApiError(0, []) // tarmoq xatosi yoki backend ishlamayapti
+    throw new ApiError(0, [])
   }
 
   const text = await res.text()
@@ -170,7 +165,6 @@ export const api = {
   },
 }
 
-/** "/uploads/..." yo'lini backend originiga ulaydi */
 export function imageUrl(url: string | undefined | null): string | null {
   if (!url) return null
   if (/^https?:\/\//.test(url)) return url

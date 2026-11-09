@@ -8,16 +8,14 @@ import { categoryName } from '../lib/format'
 import { PropertyCard } from '../components/PropertyCard'
 import { EmptyState, ErrorState, GridSkeleton } from '../components/ui'
 
-// Hero slaydlari: dekorativ rasm (Unsplash) + har biriga o'z sarlavhasi. Rasm yuklanmasa gradient fon qoladi.
 const HERO_SLIDES = [
   { image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=75', key: 'slide1' },
   { image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=2000&q=75', key: 'slide2' },
   { image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=2000&q=75', key: 'slide3' },
 ]
-const HERO_INTERVAL = 3000 // 3 soniya
-const SWIPE_THRESHOLD = 50 // px
+const HERO_INTERVAL = 3000
+const SWIPE_THRESHOLD = 50
 
-/** Butun heroni qoplaydigan, avtomatik va swipe bilan almashadigan slayder */
 function HeroSlider({ children }: { children: ReactNode }) {
   const { t } = useTranslation()
   const [active, setActive] = useState(0)
@@ -28,7 +26,6 @@ function HeroSlider({ children }: { children: ReactNode }) {
 
   const go = (index: number) => setActive(((index % count) + count) % count)
 
-  // Har slayd o'zgarganda taymer qaytadan boshlanadi (qo'lda almashtirilganda ham)
   useEffect(() => {
     if (reducedMotion || paused) return
     const id = window.setTimeout(() => setActive((i) => (i + 1) % count), HERO_INTERVAL)
@@ -67,7 +64,6 @@ function HeroSlider({ children }: { children: ReactNode }) {
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      {/* Rasm butun hero bo'ylab yoyiladi va chapga suriladi */}
       <div className="absolute inset-0" aria-hidden>
         <div className={track} style={offset}>
           {HERO_SLIDES.map((s) => (
@@ -83,14 +79,12 @@ function HeroSlider({ children }: { children: ReactNode }) {
           ))}
         </div>
       </div>
-      {/* Matn o'qilishi uchun qoplama */}
       <div
         className="absolute inset-0 bg-[linear-gradient(90deg,var(--hero-from)_0%,color-mix(in_srgb,var(--hero-from)_75%,transparent)_45%,color-mix(in_srgb,var(--hero-from)_15%,transparent)_100%)] max-md:bg-[color-mix(in_srgb,var(--hero-from)_72%,transparent)]"
         aria-hidden
       />
 
       <div className="container-page relative py-12 sm:py-16 lg:py-20">
-        {/* Slayd matnlari ham rasm bilan birga suriladi */}
         <div className="max-w-2xl overflow-hidden" aria-live={paused ? 'polite' : 'off'}>
           <div className={track} style={offset}>
             {HERO_SLIDES.map((s, i) => (
